@@ -38,10 +38,10 @@ Run this notebook directly in **Google Colab** (recommended).
       transforms.Resize((224, 224)),
       transforms.ToTensor()
   ])
-
+``` 
 - **DataLoader Batch Size: 32**
 
-- **Model Architecture**
+- **Model Architecture**:
  ```python
  class CNN(nn.Module):
     def __init__(self):
@@ -60,7 +60,7 @@ Run this notebook directly in **Google Colab** (recommended).
         x = self.relu(self.fc1(x))
         x = self.fc2(x)
         return x
-       
+```
 - Conv Layers: Extract spatial features
 - ReLU: Introduces non-linearity
 - MaxPool: Downsamples to reduce feature map size
