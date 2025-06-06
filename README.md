@@ -37,34 +37,42 @@ Run this notebook directly in **Google Colab** (recommended).
   transforms.Compose([
       transforms.Resize((224, 224)),
       transforms.ToTensor()
-  ])
- 
+  ]) 
 - **DataLoader Batch Size: 32**
 
-- **Model Architecture**:
- ```python
- class CNN(nn.Module):
-    def __init__(self):
-        super(CNN, self).__init__()
-        self.conv1 = nn.Conv2d(3, 32, kernel_size=3, padding=1)
-        self.conv2 = nn.Conv2d(32, 64, kernel_size=3, padding=1)
-        self.pool = nn.MaxPool2d(kernel_size=2, stride=2)
-        self.relu = nn.ReLU()
-        self.fc1 = nn.Linear(64 * 56 * 56, 32)
-        self.fc2 = nn.Linear(32, 9)
+### CNN Architecture
+Custom CNN built using `torch.nn`:
 
-    def forward(self, x):
-        x = self.pool(self.relu(self.conv1(x)))
-        x = self.pool(self.relu(self.conv2(x)))
-        x = x.view(x.size(0), -1)
-        x = self.relu(self.fc1(x))
-        x = self.fc2(x)
-        return x
+```python
+Conv2d(3 to 32) to ReLU to MaxPool
+Conv2d(32 →to 64) to ReLU to MaxPool
+Flatten to Linear(64*56*56 to 32) to ReLU to Linear(32 to 9)
 ```
-- Conv Layers: Extract spatial features
-- ReLU: Introduces non-linearity
-- MaxPool: Downsamples to reduce feature map size
-- FC1 to FC2: Classifies into 9 output classes
+- Loss: `CrossEntropyLoss`
+- Optimizer: `Adam`
+- Epochs: 5
+- Accuracy Achieved: **84.1% on test set**
 
+### Transfer Learning with AlexNet
+- Used pretrained `AlexNet` for feature extraction
+- Achieved **~92.3%** test accuracy
 
+### Transfer Learning with VGG16
+- Used pretrained `VGG16` (deep 16-layer CNN)
+- Achieved highest test accuracy: **95.5%**
+- Most accurate on gesture I (100%)
+- Most confusion: A vs E, F vs G
 
+## Model Comparison
+
+| Model                | Test Accuracy (%) |
+|----------------------|-------------------|
+| Custom CNN (scratch) | 84.1%             |
+| AlexNet              | 92.3%            |
+| VGG16                | **95.5%**         |
+
+## Discussion
+- Transfer learning improves accuracy with limited training data.
+- Data augmentation, batch norm, or deeper training would improve base CNN.
+- VGG16 provided robust performance but is computationally heavier.
+- Bias may exist due to lighting, hand skin tone, or gesture similarity.
