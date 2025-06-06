@@ -38,7 +38,7 @@ Run this notebook directly in **Google Colab** (recommended).
       transforms.Resize((224, 224)),
       transforms.ToTensor()
   ])
-``` 
+ 
 - **DataLoader Batch Size: 32**
 
 - **Model Architecture**:
